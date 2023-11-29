@@ -1,12 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { InitalInfo } from './models/initalInfo.model';
+import { Turn } from './models/turn.model';
+import { Move } from './models/move.model';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello(): InitalInfo {
+    return new InitalInfo();
+  }
+
+  @Post('/start')
+  @HttpCode(200)
+  startGame(@Body() turn: Turn): void {
+    console.log(turn);
+  }
+
+  @Post('move')
+  moveSnake(@Body() turn: Turn): Move {
+    console.log(turn);
+    return new Move('up', null);
+  }
+
+  @Post('end')
+  @HttpCode(200)
+  endGame(@Body() turn: Turn): void {
+    console.log(turn);
   }
 }
