@@ -27,7 +27,7 @@ export class WeightedMoves {
 
   setWeight(direction: Direction, weight: number): void {
     const index = this.moves.findIndex((move) => move.direction === direction);
-    this.moves[index].weight = weight;
+    this.moves[index].weight += weight;
   }
 
   findHighestWeightedMove(): Move {
