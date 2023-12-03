@@ -48,17 +48,17 @@ export class AppService {
     let edge : Direction;
     if(isXCloserThanY){
       if(x > 0) {
-        edge = Direction.RIGHT;
-      }
-      if (x <= 0) {
         edge = Direction.LEFT;
       }
-    } else {
-      if(y >= 0) {
-        edge = Direction.UP;
+      if (x <= 0) {
+        edge = Direction.RIGHT;
       }
-      if( y < 0) {
-        edge = Direction.DOWN
+    } else {
+      if(y > 0) {
+        edge = Direction.DOWN;
+      }
+      if( y <= 0) {
+        edge = Direction.UP
       }
     }
     console.log('closest edge: ', edge);
