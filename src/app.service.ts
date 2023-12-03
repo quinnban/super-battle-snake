@@ -125,7 +125,7 @@ export class AppService {
         weightedMoves.setWeight(Direction.LEFT , -100)
       }
   
-      if(possibleMove.move.x > board.height -1 ){
+      if(possibleMove.move.y > board.height -1 ){
         weightedMoves.setWeight(Direction.UP , -100)
       }
       if(possibleMove.move.y < 0){
