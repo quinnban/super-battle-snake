@@ -43,25 +43,19 @@ export class AppService {
   }
 
   private findClosestEdge(head: Coordinate, bound: number,log: boolean): Direction {
-    const x = head.x - bound;
-    const y = head.y - bound;
-    const isXCloserThanY = Math.abs(x) < Math.abs(y);
-    let edge : Direction;
-    if(isXCloserThanY){
-      if(x > 0) {
-        edge = Direction.LEFT;
-      }
-      if (x <= 0) {
-        edge = Direction.RIGHT;
-      }
-    } else {
-      if(y > 0) {
-        edge = Direction.DOWN;
-      }
-      if( y <= 0) {
-        edge = Direction.UP
-      }
-    }
+    const temp  = new WeightedMoves();
+    const xRight = head.x - bound;
+    const yUp = head.y - bound;
+    const xLeft = bound - xRight;
+    const yDown = bound - yUp;
+
+    temp.setWeight(Direction.LEFT,xLeft);
+    temp.setWeight(Direction.RIGHT,xRight);
+    temp.setWeight(Direction.UP,yUp);
+    temp.setWeight(Direction.DOWN,yDown);
+
+    let edge : Direction = temp.findLowestWeigtheMove().move;
+    
     if(log){console.log('closest edge: ', edge);}
     return edge;
   }

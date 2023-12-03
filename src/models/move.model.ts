@@ -42,6 +42,13 @@ export class WeightedMoves {
     const index = temp.findIndex((number) => number === maxValue);
     return new Move(this.moves[index].direction, '');
   }
+
+  findLowestWeigtheMove(): Move {
+    const temp = this.moves.map((move) => move.weight);
+    const maxValue = Math.min(...temp);
+    const index = temp.findIndex((number) => number === maxValue);
+    return new Move(this.moves[index].direction, '');
+  }
 }
 
 class WeightedMove {
