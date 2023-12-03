@@ -114,7 +114,7 @@ export class AppService {
 
   getFindFoodRange(you: Snake): number {
     const maximumRange = 11;
-    const rangeDivi const range = this.getFindFoodRange(turn.you);der = 3;
+    const rangeDivider = 3;
     const rangeDeterminant = Math.floor(you.health / rangeDivider);
 
     if (rangeDeterminant >= 10) {
