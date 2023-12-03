@@ -15,6 +15,7 @@ export class AppService {
     this.dontKillYourSelf(turn.you,weightedMoves);
     console.log(weightedMoves);
     console.log(weightedMoves.findHighestWeightedMove());
+    this.lastMove = weightedMoves.findHighestWeightedMove().move;
     return weightedMoves.findHighestWeightedMove();
   }
 
