@@ -1,8 +1,9 @@
+import { Direction, Move, WeightedMoves } from './models/move.model';
 import { Injectable } from '@nestjs/common';
 import { Board } from './models/board.model';
 import { Snake } from './models/snake.model';
-import { Direction, Move, WeightedMoves } from './models/move.model';
 import { Turn } from './models/turn.model';
+import {Coordinate} from "./models/coordinate.model";
 
 @Injectable()
 export class AppService {
@@ -44,5 +45,33 @@ export class AppService {
 
   private attackOtherSnakes(board: Board, you: Snake): Direction {
     return Direction.UP;
+  }
+
+  findClosestFood(board: Board, you: Snake): Direction {
+    let allTheFood: Coordinate[];
+    let distanceToClosestFood: number;
+    let closestFood: Coordinate;
+
+    allTheFood = board.food;
+    distanceToClosestFood = 999;
+
+    allTheFood.forEach(function (food) {
+      const deltaX = Math.abs(you.head.x - food.x);
+      const deltaY = Math.abs(you.head.y - food.y);
+
+      if (deltaX + deltaY < distanceToClosestFood) {
+        distanceToClosestFood = deltaX + deltaY;
+        closestFood = food;
+      }
+    });
+
+    let distanceToClosestFoodX = you.head.x - closestFood.x;
+    let distanceToClosestFoodY = you.head.y - closestFood.y;
+
+    if (Math.abs(distanceToClosestFoodX) > Math.abs(distanceToClosestFoodY)) {
+      return distanceToClosestFoodX > 0 ? Direction.LEFT : Direction.RIGHT;
+    } else {
+      return distanceToClosestFoodY > 0 ? Direction.UP : Direction.DOWN;
+    }
   }
 }
