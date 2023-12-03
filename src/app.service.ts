@@ -21,9 +21,24 @@ export class AppService {
   }
 
   private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves): void {
-    const borderDirection: Direction = this.moveAlongEdge(this.findClosestEdge(you.head,board.height));
-    console.log('move along bordering going: ', borderDirection);
-    weightedMoves.setWeight(borderDirection,20);
+    const closestEdge = this.findClosestEdge(you.head,board.height);
+    if(!this.areWeOnEdge(you.head,board.height)){
+      console.log('move towards edge: ', closestEdge);
+      weightedMoves.setWeight(closestEdge,14);
+    } else {
+      const borderDirection: Direction = this.moveAlongEdge(closestEdge);
+      console.log('move along bordering going: ', borderDirection);
+      weightedMoves.setWeight(borderDirection,14);
+    }
+   
+   
+  }
+
+  private areWeOnEdge(head: Coordinate,  bound: number): boolean {
+    if(head.x === 0 || head.x === bound || head.y === 0 || head.y === bound){
+      return true;
+    }
+    return false;
   }
 
   private findClosestEdge(head: Coordinate, bound: number): Direction {
