@@ -10,24 +10,25 @@ export class AppService {
 
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
-    this.findFood(turn.board, turn.you, weightedMoves);
-    this.moveAroundBorder(turn.board,turn.you,weightedMoves);
+    const log = turn.turn <= 15;
+    this.findFood(turn.board, turn.you, weightedMoves,log);
+    this.moveAroundBorder(turn.board,turn.you,weightedMoves,log);
     this.removeUnsafeMoves(turn.you,turn.board,weightedMoves);
-    if(turn.turn <= 15){
+    if(log){
       console.log(weightedMoves);
       console.log(weightedMoves.findHighestWeightedMove());
     }
     return weightedMoves.findHighestWeightedMove();
   }
 
-  private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves): void {
-    const closestEdge = this.findClosestEdge(you.head,board.height);
+  private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves, log:boolean): void {
+    const closestEdge = this.findClosestEdge(you.head,board.height,log);
     if(!this.areWeOnEdge(you.head,board.height)){
-      console.log('move towards edge: ', closestEdge);
+      if(log){ console.log('move towards edge: ', closestEdge);}
       weightedMoves.setWeight(closestEdge,14);
     } else {
       const borderDirection: Direction = this.moveAlongEdge(closestEdge);
-      console.log('move along bordering going: ', borderDirection);
+      if(log){console.log('move along bordering going: ', borderDirection);}
       weightedMoves.setWeight(borderDirection,14);
     }
    
@@ -41,7 +42,7 @@ export class AppService {
     return false;
   }
 
-  private findClosestEdge(head: Coordinate, bound: number): Direction {
+  private findClosestEdge(head: Coordinate, bound: number,log: boolean): Direction {
     const x = head.x - bound;
     const y = head.y - bound;
     const isXCloserThanY = Math.abs(x) < Math.abs(y);
@@ -61,7 +62,7 @@ export class AppService {
         edge = Direction.UP
       }
     }
-    console.log('closest edge: ', edge);
+    if(log){console.log('closest edge: ', edge);}
     return edge;
   }
 
@@ -78,9 +79,9 @@ export class AppService {
     }
   }
 
-  private findFood(board: Board, you: Snake,weightedMoves : WeightedMoves): void {
+  private findFood(board: Board, you: Snake,weightedMoves : WeightedMoves, log: boolean): void {
     const range = this.getFindFoodRange(you);
-    console.log('range: ' + range);
+    if(log){console.log('range: ' + range);}
     const food = this.findClosestFood(board, you, range);
     if (food == null) {
       return;
