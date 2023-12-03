@@ -1,5 +1,5 @@
 export class InitalInfo {
-  apiversion: number;
+  apiversion: string;
   author: string;
   color: string;
   head: string;
@@ -7,7 +7,7 @@ export class InitalInfo {
   version: string;
 
   constructor() {
-    this.apiversion = 1;
+    this.apiversion = '1';
     this.author = 'Quinn and Jeff';
     this.color = '#3d5e94';
     this.head = 'pixel-round';

@@ -9,6 +9,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
+  @HttpCode(200)
   getHello(): InitalInfo {
     return new InitalInfo();
   }
@@ -20,6 +21,7 @@ export class AppController {
   }
 
   @Post('move')
+  @HttpCode(200)
   moveSnake(@Body() turn: Turn): Move {
     return this.appService.basicStragey(turn);
   }
