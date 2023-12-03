@@ -22,8 +22,8 @@ export class AppService {
   }
 
   private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves, log:boolean): void {
-    const closestEdge = this.findClosestEdge(you.head,board.height,log);
-    if(!this.areWeOnEdge(you.head,board.height)){
+    const closestEdge = this.findClosestEdge(you.head,(board.height-1),log);
+    if(!this.areWeOnEdge(you.head,(board.height-1))){
       if(log){ console.log('move towards edge: ', closestEdge);}
       weightedMoves.setWeight(closestEdge,14);
     } else {
@@ -44,10 +44,10 @@ export class AppService {
 
   private findClosestEdge(head: Coordinate, bound: number,log: boolean): Direction {
     const temp  = new WeightedMoves();
-    const xRight = head.x - bound;
-    const yUp = head.y - bound;
-    const xLeft = bound - xRight;
-    const yDown = bound - yUp;
+    const xRight = bound - head.x;
+    const yUp = bound - head.y;
+    const xLeft =  head.x;
+    const yDown = head.y;
 
     temp.setWeight(Direction.LEFT,xLeft);
     temp.setWeight(Direction.RIGHT,xRight);
