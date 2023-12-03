@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { Board } from './models/board.model';
 import { Snake } from './models/snake.model';
 import { Turn } from './models/turn.model';
+import {Injectable} from '@nestjs/common';
+import {Direction, Move} from './models/move.model';
 import {Coordinate} from "./models/coordinate.model";
 
 @Injectable()
