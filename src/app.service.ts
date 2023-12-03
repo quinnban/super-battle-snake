@@ -119,7 +119,7 @@ export class AppService {
     const rangeDeterminant = Math.floor(you.health / rangeDivider);
 
     if (rangeDeterminant >= 10) {
-      return rangeDivider * Math.floor(rangeDeterminant / 10);
+      return rangeDivider + (rangeDivider * (rangeDivider - Math.floor(rangeDeterminant / 10)));
     }
     return maximumRange;
   }
