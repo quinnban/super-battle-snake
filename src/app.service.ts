@@ -16,31 +16,53 @@ export class AppService {
 
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
-
+    this.findFood(turn.board,turn.you,100,weightedMoves)
     this.dontKillYourSelf(turn.you,weightedMoves);
+    console.log(weightedMoves);
     return weightedMoves.findHighestWeightedMove();
   }
 
-  private findFood(board: Board, you: Snake, range: number): Direction {
-    return Direction.UP;
+  private findFood(board: Board, you: Snake, range: number,weightedMoves : WeightedMoves): void {
+    const food = this.findClosestFood(board,you, range);
+    const distanceToClosestFoodX = you.head.x - food.x;
+    const distanceToClosestFoodY = you.head.y - food.y;
+    const xCloserThanY = Math.abs(distanceToClosestFoodX) > Math.abs(distanceToClosestFoodY)
+    if(distanceToClosestFoodX > 0){
+      weightedMoves.setWeight(Direction.LEFT, 6);
+    } else {
+      weightedMoves.setWeight(Direction.RIGHT, 6);
+    }
+    if(distanceToClosestFoodY > 0){
+      weightedMoves.setWeight(Direction.UP, 6);
+    } else {
+      weightedMoves.setWeight(Direction.DOWN, 6);
+    }
+    if(xCloserThanY){
+      weightedMoves.setWeight(Direction.LEFT, 4);
+      weightedMoves.setWeight(Direction.RIGHT, 4);
+    } else {
+      weightedMoves.setWeight(Direction.UP, 4);
+      weightedMoves.setWeight(Direction.DOWN, 4);
+    }
+    
+  
   }
-
   private dontKillYourSelf(you: Snake, weightedMoves: WeightedMoves): void {
     if(this.lastMove === null){
       return;
     }
     switch(this.lastMove) {
       case Direction.DOWN:
-        weightedMoves.setWeight(Direction.UP, -10);
+        weightedMoves.setWeight(Direction.UP, -100);
         break;
       case Direction.UP:
-        weightedMoves.setWeight(Direction.DOWN, -10);
+        weightedMoves.setWeight(Direction.DOWN, -100);
         break;
       case Direction.LEFT:
-        weightedMoves.setWeight(Direction.RIGHT, -10);
+        weightedMoves.setWeight(Direction.RIGHT, -100);
         break;
       case Direction.RIGHT:
-        weightedMoves.setWeight(Direction.LEFT, -10);
+        weightedMoves.setWeight(Direction.LEFT, -100);
         break;
     }
   }
@@ -49,15 +71,12 @@ export class AppService {
     return Direction.UP;
   }
 
-  findClosestFood(board: Board, you: Snake): Direction {
-    let allTheFood: Coordinate[];
-    let distanceToClosestFood: number;
+  findClosestFood(board: Board, you: Snake, range): Coordinate {
+    const allTheFood = board.food;
+    let distanceToClosestFood = 999;;
     let closestFood: Coordinate;
 
-    allTheFood = board.food;
-    distanceToClosestFood = 999;
-
-    allTheFood.forEach(function (food) {
+    allTheFood.forEach((food) => {
       const deltaX = Math.abs(you.head.x - food.x);
       const deltaY = Math.abs(you.head.y - food.y);
 
@@ -67,13 +86,6 @@ export class AppService {
       }
     });
 
-    let distanceToClosestFoodX = you.head.x - closestFood.x;
-    let distanceToClosestFoodY = you.head.y - closestFood.y;
-
-    if (Math.abs(distanceToClosestFoodX) > Math.abs(distanceToClosestFoodY)) {
-      return distanceToClosestFoodX > 0 ? Direction.LEFT : Direction.RIGHT;
-    } else {
-      return distanceToClosestFoodY > 0 ? Direction.UP : Direction.DOWN;
-    }
+    return closestFood;
   }
 }
