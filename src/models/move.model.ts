@@ -1,9 +1,9 @@
 export class Move {
   move: Direction;
-  shout: string;
+ // shout: string;
   constructor(m: Direction, s: string) {
     this.move = m;
-    this.shout = s;
+   // this.shout = s;
   }
 }
 
