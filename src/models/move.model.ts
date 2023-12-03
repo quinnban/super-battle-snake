@@ -1,3 +1,5 @@
+import { Coordinate } from "./coordinate.model";
+
 export class Move {
   move: Direction;
  // shout: string;
@@ -14,6 +16,10 @@ export enum Direction {
   DOWN = 'down',
 }
 
+export interface PossibleMove {
+  direction: Direction;
+  move: Coordinate;
+}
 export class WeightedMoves {
   moves: WeightedMove[];
 
