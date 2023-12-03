@@ -11,10 +11,49 @@ export class AppService {
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
     this.findFood(turn.board, turn.you, weightedMoves);
+    this.moveAroundBorder(turn.board,turn.you,weightedMoves);
     this.removeUnsafeMoves(turn.you,turn.board,weightedMoves);
     console.log(weightedMoves);
     console.log(weightedMoves.findHighestWeightedMove());
     return weightedMoves.findHighestWeightedMove();
+  }
+
+  private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves): void {
+    weightedMoves.setWeight(this.moveAlongEdge(this.findClosestEdge(you.head,board.height)),20);
+  }
+
+  private findClosestEdge(head: Coordinate, bound: number): Direction {
+    const x = head.x - bound;
+    const y = head.y - bound;
+    const isXCloserThanY = Math.abs(x) < Math.abs(y);
+    if(isXCloserThanY){
+      if(x > 0) {
+        return Direction.RIGHT;
+      }
+      if (x <= 0) {
+        return Direction.LEFT;
+      }
+    } else {
+      if(y >= 0) {
+        return Direction.UP;
+      }
+      if( y < 0) {
+        return Direction.DOWN
+      }
+    }
+  }
+
+  private moveAlongEdge(closestEdge: Direction): Direction {
+    switch(closestEdge){
+      case Direction.LEFT:
+        return Direction.UP;
+      case Direction.RIGHT:
+        return Direction.DOWN;
+      case Direction.UP:
+        return Direction.LEFT;
+      case Direction.DOWN:
+        return Direction.RIGHT;
+    }
   }
 
   private findFood(board: Board, you: Snake,weightedMoves : WeightedMoves): void {
