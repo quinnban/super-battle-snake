@@ -14,7 +14,8 @@ export class AppService {
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
 
-    return new Move(Direction.UP, 'Matt sucks');
+    this.dontKillYourSelf(turn.you,weightedMoves);
+    return weightedMoves.findHighestWeightedMove();
   }
 
   private findFood(board: Board, you: Snake, range: number): Direction {

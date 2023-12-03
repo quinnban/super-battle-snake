@@ -25,9 +25,16 @@ export class WeightedMoves {
     this.moves.push(new WeightedMove(Direction.RIGHT, 0));
   }
 
-  setWeight(direction: Direction, weight: number) {
+  setWeight(direction: Direction, weight: number): void {
     const index = this.moves.findIndex((move) => move.direction === direction);
     this.moves[index].weight = weight;
+  }
+
+  findHighestWeightedMove(): Move {
+    const temp = this.moves.map((move) => move.weight);
+    const maxValue = Math.max(...temp);
+    const index = temp.findIndex((number) => number === maxValue);
+    return new Move(this.moves[index].direction, '');
   }
 }
 
