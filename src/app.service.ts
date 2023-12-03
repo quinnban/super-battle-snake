@@ -21,28 +21,33 @@ export class AppService {
   }
 
   private moveAroundBorder(board: Board, you: Snake, weightedMoves: WeightedMoves): void {
-    weightedMoves.setWeight(this.moveAlongEdge(this.findClosestEdge(you.head,board.height)),20);
+    const borderDirection: Direction = this.moveAlongEdge(this.findClosestEdge(you.head,board.height));
+    console.log('move along bordering going: ', borderDirection);
+    weightedMoves.setWeight(borderDirection,20);
   }
 
   private findClosestEdge(head: Coordinate, bound: number): Direction {
     const x = head.x - bound;
     const y = head.y - bound;
     const isXCloserThanY = Math.abs(x) < Math.abs(y);
+    let edge : Direction;
     if(isXCloserThanY){
       if(x > 0) {
-        return Direction.RIGHT;
+        edge = Direction.RIGHT;
       }
       if (x <= 0) {
-        return Direction.LEFT;
+        edge = Direction.LEFT;
       }
     } else {
       if(y >= 0) {
-        return Direction.UP;
+        edge = Direction.UP;
       }
       if( y < 0) {
-        return Direction.DOWN
+        edge = Direction.DOWN
       }
     }
+    console.log('closest edge: ', edge);
+    return edge;
   }
 
   private moveAlongEdge(closestEdge: Direction): Direction {
