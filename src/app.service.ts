@@ -67,21 +67,21 @@ export class AppService {
     const distanceToClosestFoodY = you.head.y - food.y;
     const xCloserThanY = Math.abs(distanceToClosestFoodX) > Math.abs(distanceToClosestFoodY)
     if (distanceToClosestFoodX > 0){
-      weightedMoves.setWeight(Direction.LEFT, 6);
+      weightedMoves.setWeight(Direction.LEFT, 8);
     } else {
-      weightedMoves.setWeight(Direction.RIGHT, 6);
+      weightedMoves.setWeight(Direction.RIGHT, 8);
     }
     if (distanceToClosestFoodY > 0){
-      weightedMoves.setWeight(Direction.DOWN, 6);
+      weightedMoves.setWeight(Direction.DOWN, 8);
     } else {
-      weightedMoves.setWeight(Direction.UP, 6);
+      weightedMoves.setWeight(Direction.UP, 8);
     }
     if (xCloserThanY){
-      weightedMoves.setWeight(Direction.LEFT, 4);
-      weightedMoves.setWeight(Direction.RIGHT, 4);
+      weightedMoves.setWeight(Direction.LEFT, 15);
+      weightedMoves.setWeight(Direction.RIGHT,15);
     } else {
-      weightedMoves.setWeight(Direction.UP, 4);
-      weightedMoves.setWeight(Direction.DOWN, 4);
+      weightedMoves.setWeight(Direction.UP, 15);
+      weightedMoves.setWeight(Direction.DOWN, 15);
     }
   }
 
