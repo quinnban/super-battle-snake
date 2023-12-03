@@ -21,7 +21,6 @@ export class AppController {
 
   @Post('move')
   moveSnake(@Body() turn: Turn): Move {
-    console.log(JSON.stringify(turn));
     return this.appService.basicStragey(turn);
   }
 

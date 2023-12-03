@@ -10,15 +10,13 @@ import {Coordinate} from "./models/coordinate.model";
 @Injectable()
 export class AppService {
   private lastMove: Direction = null;
-  getHello(): string {
-    return 'Hello World!';
-  }
 
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
     this.findFood(turn.board,turn.you,100,weightedMoves)
     this.dontKillYourSelf(turn.you,weightedMoves);
     console.log(weightedMoves);
+    console.log(weightedMoves.findHighestWeightedMove());
     return weightedMoves.findHighestWeightedMove();
   }
 
@@ -33,9 +31,9 @@ export class AppService {
       weightedMoves.setWeight(Direction.RIGHT, 6);
     }
     if(distanceToClosestFoodY > 0){
-      weightedMoves.setWeight(Direction.UP, 6);
-    } else {
       weightedMoves.setWeight(Direction.DOWN, 6);
+    } else {
+      weightedMoves.setWeight(Direction.UP, 6);
     }
     if(xCloserThanY){
       weightedMoves.setWeight(Direction.LEFT, 4);
