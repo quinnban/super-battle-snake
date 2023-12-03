@@ -13,7 +13,7 @@ export class AppService {
     this.findFood(turn.board, turn.you, weightedMoves);
     this.moveAroundBorder(turn.board,turn.you,weightedMoves);
     this.removeUnsafeMoves(turn.you,turn.board,weightedMoves);
-    if(turn.turn >= 15){
+    if(turn.turn <= 15){
       console.log(weightedMoves);
       console.log(weightedMoves.findHighestWeightedMove());
     }
