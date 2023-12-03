@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Board } from './models/board.model';
 import { Snake } from './models/snake.model';
 import { Turn } from './models/turn.model';
-import {Coordinate} from "./models/coordinate.model";
+import { Coordinate } from "./models/coordinate.model";
 
 @Injectable()
 export class AppService {
@@ -19,6 +19,7 @@ export class AppService {
 
   private findFood(board: Board, you: Snake,weightedMoves : WeightedMoves): void {
     const range = this.getFindFoodRange(you);
+    console.log('range: ' + range);
     const food = this.findClosestFood(board, you, range);
     if (food == null) {
       return;
