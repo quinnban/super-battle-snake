@@ -1,28 +1,24 @@
-import { Direction, Move, WeightedMoves } from './models/move.model';
+import { Direction, Move, PossibleMove, WeightedMoves } from './models/move.model';
 import { Injectable } from '@nestjs/common';
 import { Board } from './models/board.model';
 import { Snake } from './models/snake.model';
 import { Turn } from './models/turn.model';
-import {Injectable} from '@nestjs/common';
-import {Direction, Move} from './models/move.model';
 import {Coordinate} from "./models/coordinate.model";
 
 @Injectable()
 export class AppService {
-  private lastMove: Direction = null;
 
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
-    const range = this.getFindFoodRange(turn.you);
-    this.findFood(turn.board, turn.you, range, weightedMoves);
-    this.dontKillYourSelf(turn.you,weightedMoves);
+    this.findFood(turn.board, turn.you, weightedMoves);
+    this.removeUnsafeMoves(turn.you,turn.board,weightedMoves);
     console.log(weightedMoves);
     console.log(weightedMoves.findHighestWeightedMove());
-    this.lastMove = weightedMoves.findHighestWeightedMove().move;
     return weightedMoves.findHighestWeightedMove();
   }
 
-  private findFood(board: Board, you: Snake, range: number,weightedMoves : WeightedMoves): void {
+  private findFood(board: Board, you: Snake,weightedMoves : WeightedMoves): void {
+    const range = this.getFindFoodRange(you);
     const food = this.findClosestFood(board, you, range);
     if (food == null) {
       return;
@@ -49,24 +45,45 @@ export class AppService {
     }
   }
 
-  private dontKillYourSelf(you: Snake, weightedMoves: WeightedMoves): void {
-    if (this.lastMove === null){
-      return;
-    }
-    switch(this.lastMove) {
-      case Direction.DOWN:
-        weightedMoves.setWeight(Direction.UP, -100);
-        break;
-      case Direction.UP:
-        weightedMoves.setWeight(Direction.DOWN, -100);
-        break;
-      case Direction.LEFT:
-        weightedMoves.setWeight(Direction.RIGHT, -100);
-        break;
-      case Direction.RIGHT:
-        weightedMoves.setWeight(Direction.LEFT, -100);
-        break;
-    }
+  private removeUnsafeMoves(you: Snake,board: Board, weightedMoves: WeightedMoves){
+    const possibleMoves : PossibleMove [] = [];
+    possibleMoves.push({direction: Direction.RIGHT,move: {x: you.head.x + 1, y: you.head.y}});
+    possibleMoves.push({direction: Direction.LEFT, move: {x: you.head.x - 1, y: you.head.y}});
+    possibleMoves.push({direction: Direction.UP, move: {x: you.head.x, y: you.head.y + 1}});
+    possibleMoves.push({direction: Direction.DOWN, move: {x: you.head.x, y: you.head.y - 1}});
+  
+    this.checkBounds(possibleMoves,board,weightedMoves);
+  
+    const obstacles: Coordinate [] = [];
+    obstacles.push(...board.snakes.flatMap(snake => snake.body),...board.hazards);
+    this.checkObstacle(possibleMoves,obstacles,weightedMoves);
+  
+  }
+  private checkBounds(possibleMoves : PossibleMove [],board: Board,weightedMoves: WeightedMoves): void {
+    possibleMoves.forEach(possibleMove => { 
+      if(possibleMove.move.x > board.width -1 ){
+        weightedMoves.setWeight(Direction.RIGHT , -100)
+      }
+      if(possibleMove.move.x < 0){
+        weightedMoves.setWeight(Direction.LEFT , -100)
+      }
+  
+      if(possibleMove.move.x > board.height -1 ){
+        weightedMoves.setWeight(Direction.UP , -100)
+      }
+      if(possibleMove.move.y < 0){
+        weightedMoves.setWeight(Direction.DOWN , -100)
+      }
+    });
+  }
+
+  private checkObstacle(moves : PossibleMove [], obstacles: Coordinate [], weightedMoves: WeightedMoves): void{
+    moves.forEach(possibleMove => {
+      const index = obstacles.findIndex(cord => cord.x === possibleMove.move.x && cord.y === possibleMove.move.y);
+      if(index !== -1){
+        weightedMoves.setWeight(possibleMove.direction,-100);
+      };
+    })
   }
 
   private attackOtherSnakes(board: Board, you: Snake): Direction {
@@ -97,7 +114,7 @@ export class AppService {
 
   getFindFoodRange(you: Snake): number {
     const maximumRange = 11;
-    const rangeDivider = 3;
+    const rangeDivi const range = this.getFindFoodRange(turn.you);der = 3;
     const rangeDeterminant = Math.floor(you.health / rangeDivider);
 
     if (rangeDeterminant >= 10) {
