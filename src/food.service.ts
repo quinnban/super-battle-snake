@@ -1,42 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { Board } from './models/board.model';
 import { Coordinate } from './models/coordinate.model';
-import { WeightedMoves, Direction } from './models/move.model';
+import { WeightedMoves } from './models/move.model';
 import { Snake } from './models/snake.model';
+import { WeighingUtility } from './weighingUtility';
 
 @Injectable()
 export class FoodService {
   // eslint-disable-next-line prettier/prettier
   public findFood(board: Board,you: Snake,weightedMoves: WeightedMoves,log: boolean,): void {
     const range = this.getFindFoodRange(you);
-    if (log) {
-      console.log('range: ' + range);
-    }
     const food = this.findClosestFood(board, you, range);
     if (food == null) {
       return;
     }
+    if (log) {
+      console.log('found food in range: ' + food);
+    }
     const distanceToClosestFoodX = you.head.x - food.x;
     const distanceToClosestFoodY = you.head.y - food.y;
-    const xCloserThanY =
-      Math.abs(distanceToClosestFoodX) > Math.abs(distanceToClosestFoodY);
-    if (distanceToClosestFoodX > 0) {
-      weightedMoves.setWeight(Direction.LEFT, 8);
-    } else {
-      weightedMoves.setWeight(Direction.RIGHT, 8);
-    }
-    if (distanceToClosestFoodY > 0) {
-      weightedMoves.setWeight(Direction.DOWN, 8);
-    } else {
-      weightedMoves.setWeight(Direction.UP, 8);
-    }
-    if (xCloserThanY) {
-      weightedMoves.setWeight(Direction.LEFT, 15);
-      weightedMoves.setWeight(Direction.RIGHT, 15);
-    } else {
-      weightedMoves.setWeight(Direction.UP, 15);
-      weightedMoves.setWeight(Direction.DOWN, 15);
-    }
+   WeighingUtility.assignWeigthBasedOnDeltas(distanceToClosestFoodX,distanceToClosestFoodY,15,10,weightedMoves);
   }
 
   private findClosestFood(board: Board, you: Snake, range): Coordinate {

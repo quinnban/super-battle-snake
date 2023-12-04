@@ -23,7 +23,7 @@ export class AppController {
   @Post('move')
   @HttpCode(200)
   moveSnake(@Body() turn: Turn): Move {
-    return this.appService.basicStrategy(turn);
+    return this.appService.attackStrategy(turn);
   }
 
   @Post('end')

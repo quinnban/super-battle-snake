@@ -4,6 +4,7 @@ import { Turn } from './models/turn.model';
 import { FoodService } from './food.service';
 import { SafeMoveService } from './safeMove.service';
 import { BorderStrategyService } from './borderstrategy.service';
+import { AttackService } from './attack.service';
 
 @Injectable()
 export class AppService {
@@ -11,6 +12,7 @@ export class AppService {
     private foodService: FoodService,
     private safeMoveService: SafeMoveService,
     private borderStrategyService: BorderStrategyService,
+    private attackService: AttackService,
   ) {}
 
   basicStrategy(turn: Turn): Move {
@@ -25,6 +27,18 @@ export class AppService {
 
     // eslint-disable-next-line prettier/prettier
     this.safeMoveService.removeUnsafeMoves(turn.you, turn.board, weightedMoves, log);
+    if (log) {
+      console.log(weightedMoves);
+      console.log(weightedMoves.findHighestWeightedMove());
+    }
+    return weightedMoves.findHighestWeightedMove();
+  }
+
+  attackStrategy(turn: Turn): Move {
+    const weightedMoves = new WeightedMoves();
+    const log = turn.turn <= 10;
+    this.foodService.findFood(turn.board, turn.you, weightedMoves, log);
+    this.attackService.attackOtherSnakes(turn.you,turn.board,weightedMoves,log);
     if (log) {
       console.log(weightedMoves);
       console.log(weightedMoves.findHighestWeightedMove());
