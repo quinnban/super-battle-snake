@@ -10,7 +10,7 @@ export class AppService {
 
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
-    const log = turn.turn <= 10;
+    const log = (turn.turn <= 10);
     //this.findFood(turn.board, turn.you, weightedMoves,log);
     this.moveAroundBorder(turn.board,turn.you,weightedMoves,log);
     this.removeUnsafeMoves(turn.you,turn.board,weightedMoves,log);
@@ -44,10 +44,10 @@ export class AppService {
 
   private findClosestEdge(head: Coordinate, bound: number,log: boolean): Direction {
     const temp  = new WeightedMoves();
-    const xLeft = bound - head.x;
-    const yDown = bound - head.y;
-    const xRight =  head.x;
-    const yUp = head.y;
+    const xRight = bound - head.x;
+    const yUp = bound - head.y;
+    const xLeft =  head.x;
+    const yDown = head.y;
 
     temp.setWeight(Direction.LEFT,xLeft);
     temp.setWeight(Direction.RIGHT,xRight);
