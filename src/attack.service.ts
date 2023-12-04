@@ -25,13 +25,10 @@ export class AttackService {
   private findClosestKillableSnake(you: Snake, board: Board, log: boolean): Snake {
     const head = you.head;
     const snakes = board.snakes.slice(1);
-    if (log) {
-        console.log('snake array: ', snakes);
-      }
     let closestDistance = 10000;
     let suckerSnake: Snake;
     snakes.forEach((snake) => {
-      if (snake.length > board.snakes[0].length) {
+      if (snake.length >= board.snakes[0].length) {
         return;
       }
       const distance = Math.abs(head.x - snake.head.x) + Math.abs(head.y - snake.head.y);
