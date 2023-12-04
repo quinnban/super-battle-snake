@@ -8,7 +8,7 @@ import { WeighingUtility } from './weighingUtility';
 export class AttackService {
   // eslint-disable-next-line prettier/prettier
   public attackOtherSnakes(you: Snake,board: Board, weightedMoves: WeightedMoves, log: boolean) {
-    const snake = this.findClosestKillableSnake(board);
+    const snake = this.findClosestKillableSnake(you, board, log);
     if (!snake) {
       return;
     }
@@ -22,8 +22,8 @@ export class AttackService {
     WeighingUtility.assignWeigthBasedOnDeltas(dx, dy, 20, 15, weightedMoves);
   }
 
-  private findClosestKillableSnake(board: Board, log: boolean): Snake {
-    const head = board.snakes.shift().head;
+  private findClosestKillableSnake(you: Snake, board: Board, log: boolean): Snake {
+    const head = you.head;
     const snakes = board.snakes.slice(1);
     if (log) {
         console.log('snake array: ', snakes);
