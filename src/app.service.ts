@@ -67,9 +67,9 @@ export class AppService {
       case Direction.RIGHT:
         return Direction.DOWN;
       case Direction.UP:
-        return Direction.LEFT;
-      case Direction.DOWN:
         return Direction.RIGHT;
+      case Direction.DOWN:
+        return Direction.LEFT;
     }
   }
 
