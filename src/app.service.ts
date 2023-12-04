@@ -11,8 +11,12 @@ export class AppService {
   basicStragey(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
     const log = (turn.turn <= 10);
-    //this.findFood(turn.board, turn.you, weightedMoves,log);
-    this.moveAroundBorder(turn.board,turn.you,weightedMoves,log);
+    if(turn.you.health < 75){
+      this.findFood(turn.board, turn.you, weightedMoves,log);
+    } else {
+      this.moveAroundBorder(turn.board,turn.you,weightedMoves,log);
+    }
+    
     this.removeUnsafeMoves(turn.you,turn.board,weightedMoves,log);
     if(log){
       console.log(weightedMoves);
