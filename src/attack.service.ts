@@ -22,9 +22,12 @@ export class AttackService {
     WeighingUtility.assignWeigthBasedOnDeltas(dx, dy, 20, 15, weightedMoves);
   }
 
-  private findClosestKillableSnake(board: Board): Snake {
+  private findClosestKillableSnake(board: Board, log: boolean): Snake {
     const head = board.snakes.shift().head;
     const snakes = board.snakes.slice(1);
+    if (log) {
+        console.log('snake array: ', snakes);
+      }
     let closestDistance = 10000;
     let suckerSnake: Snake;
     snakes.forEach((snake) => {
