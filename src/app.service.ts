@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Turn } from './models/turn.model';
 import { FoodService } from './food.service';
 import { SafeMoveService } from './safeMove.service';
-import { BorderStrategyService } from './borderstrategy.service';
+import { BorderStrategyService } from './borderStrategy.service';
 import { AttackService } from './attack.service';
 
 @Injectable()
