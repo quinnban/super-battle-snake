@@ -19,7 +19,7 @@ export class FoodService {
     }
     const distanceToClosestFoodX = you.head.x - food.x;
     const distanceToClosestFoodY = you.head.y - food.y;
-   Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX,distanceToClosestFoodY,15,10,weightedMoves);
+    Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX, distanceToClosestFoodY, 15, 10, weightedMoves);
   }
 
   private findClosestFood(board: Board, you: Snake, range): Coordinate {
@@ -49,10 +49,7 @@ export class FoodService {
     const rangeDeterminant = Math.floor(you.health / rangeDivider);
 
     if (rangeDeterminant >= 10) {
-      return (
-        rangeDivider +
-        rangeDivider * (rangeDivider - Math.floor(rangeDeterminant / 10))
-      );
+      return rangeDivider + rangeDivider * (rangeDivider - Math.floor(rangeDeterminant / 10));
     }
     return maximumRange;
   }
