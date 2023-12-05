@@ -5,15 +5,11 @@ import { FoodService } from './food.service';
 import { SafeMoveService } from './safeMove.service';
 import { BorderStrategyService } from './borderStrategy.service';
 import { AttackService } from './attack.service';
+import { LookAheadService } from './lookAhead.service';
 
 @Injectable()
 export class AppService {
-  constructor(
-    private foodService: FoodService,
-    private safeMoveService: SafeMoveService,
-    private borderStrategyService: BorderStrategyService,
-    private attackService: AttackService,
-  ) {}
+  constructor(private foodService: FoodService, private safeMoveService: SafeMoveService, private borderStrategyService: BorderStrategyService, private attackService: AttackService, private lookAheadService: LookAheadService) {}
 
   basicStrategy(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
@@ -21,11 +17,9 @@ export class AppService {
     if (turn.you.health < 75) {
       this.foodService.findFood(turn.board, turn.you, weightedMoves, log);
     } else {
-      // eslint-disable-next-line prettier/prettier
       this.borderStrategyService.moveAroundBorder(turn.board, turn.you, weightedMoves, log);
     }
 
-    // eslint-disable-next-line prettier/prettier
     this.safeMoveService.removeUnsafeMoves(turn.you, turn.board, weightedMoves, log);
     if (log) {
       console.log(weightedMoves);
@@ -38,7 +32,8 @@ export class AppService {
     const weightedMoves = new WeightedMoves();
     const log = turn.turn <= 10;
     this.foodService.findFood(turn.board, turn.you, weightedMoves, log);
-    this.attackService.attackOtherSnakes(turn.you,turn.board,weightedMoves,log);
+    this.attackService.attackOtherSnakes(turn.you, turn.board, weightedMoves, log);
+    this.lookAheadService.lookAhead(turn.you, turn.board, log, weightedMoves);
     this.safeMoveService.removeUnsafeMoves(turn.you, turn.board, weightedMoves, log);
     if (log) {
       console.log(weightedMoves);

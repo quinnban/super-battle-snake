@@ -1,6 +1,8 @@
-import { Direction, WeightedMoves } from './models/move.model';
+import { Board } from './models/board.model';
+import { Direction, PossibleMove, WeightedMoves } from './models/move.model';
+import { Snake } from './models/snake.model';
 
-export class WeighingUtility {
+export class Utilities {
   // eslint-disable-next-line prettier/prettier
   public static  assignWeigthBasedOnDeltas(dx: number, dy: number,primaryWeight: number, secondaryWeigth: number, weightedMoves: WeightedMoves): void {
     if (Math.abs(dx) <= Math.abs(dy)) {
@@ -42,5 +44,44 @@ export class WeighingUtility {
         weightedMoves.setWeight(Direction.LEFT, secondaryWeigth);
       }
     }
+  }
+
+  public static findClosestSnake(you: Snake, board: Board, killable: boolean): Snake {
+    const head = you.head;
+    const snakes = board.snakes.slice(1);
+    let closestDistance = 10000;
+    let closestSnake: Snake;
+    snakes.forEach((snake) => {
+      if (snake.length >= board.snakes[0].length && killable) {
+        return;
+      }
+      const distance = Math.abs(head.x - snake.head.x) + Math.abs(head.y - snake.head.y);
+      if (closestDistance > distance) {
+        closestDistance = distance;
+        closestSnake = snake;
+      }
+    });
+    return closestSnake;
+  }
+
+  public static getPossibleMoves(snake: Snake): PossibleMove[] {
+    const possibleMoves: PossibleMove[] = [];
+    possibleMoves.push({
+      direction: Direction.RIGHT,
+      move: { x: snake.head.x + 1, y: snake.head.y },
+    });
+    possibleMoves.push({
+      direction: Direction.LEFT,
+      move: { x: snake.head.x - 1, y: snake.head.y },
+    });
+    possibleMoves.push({
+      direction: Direction.UP,
+      move: { x: snake.head.x, y: snake.head.y + 1 },
+    });
+    possibleMoves.push({
+      direction: Direction.DOWN,
+      move: { x: snake.head.x, y: snake.head.y - 1 },
+    });
+    return possibleMoves;
   }
 }

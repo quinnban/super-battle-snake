@@ -3,37 +3,17 @@ import { Board } from './models/board.model';
 import { Coordinate } from './models/coordinate.model';
 import { WeightedMoves, PossibleMove, Direction } from './models/move.model';
 import { Snake } from './models/snake.model';
+import { Utilities } from './utilities';
 
 @Injectable()
 export class SafeMoveService {
-  // eslint-disable-next-line prettier/prettier
-  public removeUnsafeMoves(you: Snake,board: Board,weightedMoves: WeightedMoves,log: boolean) {
-    const possibleMoves: PossibleMove[] = [];
-    possibleMoves.push({
-      direction: Direction.RIGHT,
-      move: { x: you.head.x + 1, y: you.head.y },
-    });
-    possibleMoves.push({
-      direction: Direction.LEFT,
-      move: { x: you.head.x - 1, y: you.head.y },
-    });
-    possibleMoves.push({
-      direction: Direction.UP,
-      move: { x: you.head.x, y: you.head.y + 1 },
-    });
-    possibleMoves.push({
-      direction: Direction.DOWN,
-      move: { x: you.head.x, y: you.head.y - 1 },
-    });
-
+  public removeUnsafeMoves(you: Snake, board: Board, weightedMoves: WeightedMoves, log: boolean) {
+    const possibleMoves: PossibleMove[] = Utilities.getPossibleMoves(you);
     this.checkBounds(possibleMoves, board, weightedMoves, log);
 
     const obstacles: Coordinate[] = [];
-    obstacles.push(
-      ...board.snakes.flatMap((snake) => snake.body),
-      ...board.hazards,
-    );
-    this.checkObstacle(possibleMoves, obstacles, weightedMoves, log);
+    obstacles.push(...board.snakes.flatMap((snake) => snake.body), ...board.hazards);
+    this.checkObstacles(possibleMoves, obstacles, weightedMoves, log);
   }
 
   // eslint-disable-next-line prettier/prettier
@@ -68,12 +48,9 @@ export class SafeMoveService {
   }
 
   // eslint-disable-next-line prettier/prettier
-  private checkObstacle(moves: PossibleMove[],obstacles: Coordinate[],weightedMoves: WeightedMoves,log: boolean): void {
+  private checkObstacles(moves: PossibleMove[],obstacles: Coordinate[],weightedMoves: WeightedMoves,log: boolean): void {
     moves.forEach((possibleMove) => {
-      const index = obstacles.findIndex(
-        (cord) =>
-          cord.x === possibleMove.move.x && cord.y === possibleMove.move.y,
-      );
+      const index = obstacles.findIndex((cord) => cord.x === possibleMove.move.x && cord.y === possibleMove.move.y);
       if (index !== -1) {
         if (log) {
           console.log('obstacle dectected at: ', possibleMove.direction);

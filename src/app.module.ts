@@ -5,16 +5,11 @@ import { FoodService } from './food.service';
 import { SafeMoveService } from './safeMove.service';
 import { AttackService } from './attack.service';
 import { BorderStrategyService } from './borderStrategy.service';
+import { LookAheadService } from './lookAhead.service';
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [
-    AppService,
-    FoodService,
-    SafeMoveService,
-    BorderStrategyService,
-    AttackService,
-  ],
+  providers: [AppService, FoodService, SafeMoveService, BorderStrategyService, AttackService, LookAheadService],
 })
 export class AppModule {}
