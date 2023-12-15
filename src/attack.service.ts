@@ -20,6 +20,6 @@ export class AttackService {
     const targetHead = snake.head;
     const dx = head.x - targetHead.x;
     const dy = head.y - targetHead.y;
-    Utilities.assignWeigthBasedOnDeltas(dx, dy, 20, 15, weightedMoves);
+    Utilities.assignWeigthBasedOnDeltas(dx, dy, 20, 10, weightedMoves);
   }
 }
