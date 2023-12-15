@@ -22,7 +22,7 @@ export class LookAheadService {
     }
     const ourMoves: PossibleMove[] = Utilities.getPossibleMoves(you);
     const thereMoves: Coordinate[] = Utilities.getPossibleMoves(them).flatMap((m) => m.move);
-    if(log){console.log(`us: ${ourMoves}, their move: ${thereMoves}`) }
+    if(log){console.log(`us: ${JSON.stringify(ourMoves)}, their move: ${JSON.stringify(thereMoves)}`) }
     ourMoves.forEach((move) => {
       const index = thereMoves.findIndex((o) => o.x === move.move.x && o.y === move.move.y);
       if(log){console.log(`index: ${index}, our move: ${move.move}`) }
