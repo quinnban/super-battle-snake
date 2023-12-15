@@ -33,7 +33,7 @@ export class AppService {
     const log = turn.turn <= 10;
     this.foodService.findFood(turn.board, turn.you, weightedMoves, log);
     this.attackService.attackOtherSnakes(turn.you, turn.board, weightedMoves, log);
-    //this.lookAheadService.lookAhead(turn.you, turn.board, log, weightedMoves);
+    this.lookAheadService.lookAhead(turn.you, turn.board, log, weightedMoves);
     this.safeMoveService.removeUnsafeMoves(turn.you, turn.board, weightedMoves, log);
     if (log) {
       console.log(weightedMoves);
