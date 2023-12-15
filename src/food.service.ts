@@ -7,8 +7,7 @@ import { Utilities } from './utilities';
 
 @Injectable()
 export class FoodService {
-  // eslint-disable-next-line prettier/prettier
-  public findFood(board: Board,you: Snake,weightedMoves: WeightedMoves,log: boolean,): void {
+  public findFood(board: Board, you: Snake, weightedMoves: WeightedMoves, log: boolean): void {
     const range = this.getFindFoodRange(you);
     const food = this.findClosestFood(board, you, range);
     if (food == null) {
@@ -19,10 +18,20 @@ export class FoodService {
     }
     const distanceToClosestFoodX = you.head.x - food.x;
     const distanceToClosestFoodY = you.head.y - food.y;
-    Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX, distanceToClosestFoodY, 15, 10, weightedMoves);
+
+    const [primaryWeight,secondaryWeigth] = this.calculateWeight(you);
+    Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX, distanceToClosestFoodY, primaryWeight, secondaryWeigth, weightedMoves);
+
   }
 
-  private findClosestFood(board: Board, you: Snake, range): Coordinate {
+
+  private calculateWeight(you: Snake): [number, number] {
+    const priWeight = Math.round(((100 - you.health) + 10 / 10));
+    const secWeight = length >= 10 ? 10 : 3;
+    return [priWeight+ secWeight, secWeight]
+  }
+
+  private findClosestFood(board: Board, you: Snake, range: number): Coordinate {
     const allTheFood = board.food;
     let distanceToClosestFood = 999;
     let closestFood: Coordinate;
@@ -54,7 +63,6 @@ export class FoodService {
     return maximumRange;
   }
 
-  // eslint-disable-next-line prettier/prettier
   private isFoodInRange(you: Snake, closestFood: Coordinate, range: number): boolean {
     const deltaX = Math.abs(you.head.x - closestFood.x);
     const deltaY = Math.abs(you.head.y - closestFood.y);

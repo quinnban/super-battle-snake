@@ -16,7 +16,6 @@ export class SafeMoveService {
     this.checkObstacles(possibleMoves, obstacles, weightedMoves, log);
   }
 
-  // eslint-disable-next-line prettier/prettier
   private checkBounds(possibleMoves: PossibleMove[],board: Board,weightedMoves: WeightedMoves,log: boolean): void {
     possibleMoves.forEach((possibleMove) => {
       if (possibleMove.move.x > board.width - 1) {
@@ -47,7 +46,6 @@ export class SafeMoveService {
     });
   }
 
-  // eslint-disable-next-line prettier/prettier
   private checkObstacles(moves: PossibleMove[],obstacles: Coordinate[],weightedMoves: WeightedMoves,log: boolean): void {
     moves.forEach((possibleMove) => {
       const index = obstacles.findIndex((cord) => cord.x === possibleMove.move.x && cord.y === possibleMove.move.y);

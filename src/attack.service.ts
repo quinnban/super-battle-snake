@@ -7,7 +7,7 @@ import { Utilities } from './utilities';
 
 @Injectable()
 export class AttackService {
-  // eslint-disable-next-line prettier/prettier
+  
   public attackOtherSnakes(you: Snake,board: Board, weightedMoves: WeightedMoves, log: boolean) {
     const snake = Utilities.findClosestSnake(you, board, true);
     if (!snake) {

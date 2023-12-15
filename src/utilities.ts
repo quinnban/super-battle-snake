@@ -3,7 +3,7 @@ import { Direction, PossibleMove, WeightedMoves } from './models/move.model';
 import { Snake } from './models/snake.model';
 
 export class Utilities {
-  // eslint-disable-next-line prettier/prettier
+  
   public static  assignWeigthBasedOnDeltas(dx: number, dy: number,primaryWeight: number, secondaryWeigth: number, weightedMoves: WeightedMoves): void {
     if (Math.abs(dx) <= Math.abs(dy)) {
       if (dx === 0 && dy > 0) {

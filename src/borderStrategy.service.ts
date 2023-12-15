@@ -6,7 +6,6 @@ import { Snake } from './models/snake.model';
 
 @Injectable()
 export class BorderStrategyService {
-  // eslint-disable-next-line prettier/prettier
   public moveAroundBorder(board: Board,you: Snake,weightedMoves: WeightedMoves,log: boolean): void {
     const closestEdge = this.findClosestEdge(you.head, board.height - 1, log);
     if (!this.areWeOnEdge(you.head, board.height - 1)) {
@@ -29,7 +28,7 @@ export class BorderStrategyService {
     }
     return false;
   }
-  // eslint-disable-next-line prettier/prettier
+
   private findClosestEdge(head: Coordinate,bound: number,log: boolean): Direction {
     const temp = new WeightedMoves();
     const xRight = bound - head.x;
