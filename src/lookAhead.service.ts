@@ -24,10 +24,9 @@ export class LookAheadService {
 
     ourMoves.forEach((move) => {
       const index = thereMoves.findIndex((o) => o.x === move.move.x && o.y === move.move.y);
-      if (index === -1) {
-        return;
+      if (index !== -1) {
+        weightedMoves.setWeight(move.direction, -100);
       }
-      weightedMoves.setWeight(move.direction, -100);
     });
   }
 }

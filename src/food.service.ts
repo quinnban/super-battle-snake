@@ -20,7 +20,6 @@ export class FoodService {
     const distanceToClosestFoodY = you.head.y - food.y;
 
     const [primaryWeight,secondaryWeigth] = this.calculateWeight(you);
-    if(log){ console.log(primaryWeight,secondaryWeigth);}
     Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX, distanceToClosestFoodY, primaryWeight, secondaryWeigth, weightedMoves);
 
   }
