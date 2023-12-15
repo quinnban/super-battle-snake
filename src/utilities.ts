@@ -47,10 +47,8 @@ export class Utilities {
   }
 
   public static findClosestSnake(you: Snake, board: Board, killable: boolean): Snake {
-    console.log(JSON.stringify(board.snakes));
     const head = you.head;
     const snakes = board.snakes.filter(snake  => snake.name !== you.name);
-
     let closestDistance = 10000;
     let closestSnake: Snake;
     for(const snake of snakes) {
