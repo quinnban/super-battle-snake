@@ -12,7 +12,7 @@ export class LookAheadService {
     if (!closestSnake) {
       return;
     }
-    if(log){console.log('cloest snake: ' , closestSnake.head) }
+    if(log){console.log('cloest snake: ' , closestSnake.name) }
     this.dontRunintoSnakeBiggerThanUs(you, closestSnake, weightedMoves, log);
   }
 
@@ -22,7 +22,7 @@ export class LookAheadService {
     }
     const ourMoves: PossibleMove[] = Utilities.getPossibleMoves(you);
     const thereMoves: Coordinate[] = Utilities.getPossibleMoves(them).flatMap((m) => m.move);
-
+    if(log){console.log(`us: ${ourMoves}, their move: ${thereMoves}`) }
     ourMoves.forEach((move) => {
       const index = thereMoves.findIndex((o) => o.x === move.move.x && o.y === move.move.y);
       if(log){console.log(`index: ${index}, our move: ${move.move}`) }

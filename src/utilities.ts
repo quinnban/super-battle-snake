@@ -49,10 +49,11 @@ export class Utilities {
   public static findClosestSnake(you: Snake, board: Board, killable: boolean): Snake {
     const head = you.head;
     const snakes = board.snakes.slice(1);
+
     let closestDistance = 10000;
     let closestSnake: Snake;
-    snakes.forEach((snake) => {
-      if (snake.length >= board.snakes[0].length && killable) {
+    for(const snake of snakes) {
+      if (snake.length >= you.length && killable) {
         return;
       }
       const distance = Math.abs(head.x - snake.head.x) + Math.abs(head.y - snake.head.y);
@@ -60,7 +61,7 @@ export class Utilities {
         closestDistance = distance;
         closestSnake = snake;
       }
-    });
+    }
     return closestSnake;
   }
 
