@@ -20,6 +20,7 @@ export class FoodService {
     const distanceToClosestFoodY = you.head.y - food.y;
 
     const [primaryWeight,secondaryWeigth] = this.calculateWeight(you);
+    if(log){ console.log(primaryWeight,secondaryWeigth);}
     Utilities.assignWeigthBasedOnDeltas(distanceToClosestFoodX, distanceToClosestFoodY, primaryWeight, secondaryWeigth, weightedMoves);
 
   }
@@ -27,7 +28,7 @@ export class FoodService {
 
   private calculateWeight(you: Snake): [number, number] {
     const priWeight = Math.round((((100 - you.health) + 10) / 5));
-    const secWeight = you.length >= 10 ? 20 : 5;
+    const secWeight = you.length <= 10 ? 20 : 5;
     return [priWeight+ secWeight, secWeight]
   }
 
