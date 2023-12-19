@@ -25,8 +25,8 @@ export class AttackService {
   }
 
   private calculateWeight(you: Snake, them: Snake): [number, number] {
-    const priWeight = (them.length - you.length) * 20
-    const secWeight = (them.length - you.length) * 10
+    const priWeight = Math.abs(them.length - you.length) * 20
+    const secWeight = Math.abs(them.length - you.length) * 10
     return [priWeight+ secWeight, secWeight]
   }
 }
