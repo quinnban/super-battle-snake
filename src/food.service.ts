@@ -27,7 +27,7 @@ export class FoodService {
 
   private calculateWeight(you: Snake): [number, number] {
     const priWeight = Math.round((((100 - you.health) + 10) / 5));
-    const secWeight = you.length <= 8 ? 20 : 5;
+    const secWeight = (you && you.length < 8) ? 20 : 5;
     return [priWeight+ secWeight, secWeight]
   }
 

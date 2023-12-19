@@ -13,13 +13,20 @@ export class AttackService {
     if (!snake) {
       return;
     }
-    if (log) {
       console.log('move to attack snake: ', snake.head);
-    }
+    
     const head = you.head;
     const targetHead = snake.head;
     const dx = head.x - targetHead.x;
     const dy = head.y - targetHead.y;
-    Utilities.assignWeigthBasedOnDeltas(dx, dy, 20, 10, weightedMoves);
+    const [primaryWeight,secondaryWeigth] = this.calculateWeight(you,snake);
+    console.log(`move to attack snake: ${snake.name}, with weight ${primaryWeight} `);
+    Utilities.assignWeigthBasedOnDeltas(dx, dy, primaryWeight, secondaryWeigth, weightedMoves);
+  }
+
+  private calculateWeight(you: Snake, them: Snake): [number, number] {
+    const priWeight = (them.length - you.length) * 20
+    const secWeight = (them.length - you.length) * 10
+    return [priWeight+ secWeight, secWeight]
   }
 }

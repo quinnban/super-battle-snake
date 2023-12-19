@@ -22,26 +22,26 @@ export class SafeMoveService {
         if (log) {
           console.log('edge detected: ', Direction.RIGHT);
         }
-        weightedMoves.setWeight(Direction.RIGHT, -100);
+        weightedMoves.setWeight(Direction.RIGHT, -1000);
       }
       if (possibleMove.move.x < 0) {
         if (log) {
           console.log('edge detected: ', Direction.LEFT);
         }
-        weightedMoves.setWeight(Direction.LEFT, -100);
+        weightedMoves.setWeight(Direction.LEFT, -1000);
       }
 
       if (possibleMove.move.y > board.height - 1) {
         if (log) {
           console.log('edge detected: ', Direction.UP);
         }
-        weightedMoves.setWeight(Direction.UP, -100);
+        weightedMoves.setWeight(Direction.UP, -1000);
       }
       if (possibleMove.move.y < 0) {
         if (log) {
           console.log('edge detected: ', Direction.DOWN);
         }
-        weightedMoves.setWeight(Direction.DOWN, -100);
+        weightedMoves.setWeight(Direction.DOWN, -1000);
       }
     });
   }
