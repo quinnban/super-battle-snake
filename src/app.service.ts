@@ -9,7 +9,11 @@ import { LookAheadService } from './lookAhead.service';
 
 @Injectable()
 export class AppService {
-  constructor(private foodService: FoodService, private safeMoveService: SafeMoveService, private borderStrategyService: BorderStrategyService, private attackService: AttackService, private lookAheadService: LookAheadService) {}
+  constructor(private foodService: FoodService, 
+    private safeMoveService: SafeMoveService, 
+    private borderStrategyService: BorderStrategyService, 
+    private attackService: AttackService, 
+    private lookAheadService: LookAheadService) {}
 
   basicStrategy(turn: Turn): Move {
     const weightedMoves = new WeightedMoves();
